@@ -1,0 +1,77 @@
+#/bin/bash
+
+# WSBASE=$(lynx -dump -listonly http://repo.psce.com/download/webscalesql/rpm/x86_64/centos-6/ | awk -F '. ' '/5.6./ {print $3}' | tail -1)
+# WSBASE='http://sfo1.mirrors.digitalocean.com/mariadb/mariadb-10.1.2/yum/centos6-amd64/rpms/' 
+# WSLATESTURL=$(lynx -dump -listonly $WSBASE  | awk -F '. ' '/x86_64/ {print $3}')
+# WSRPMFILES=$(lynx -dump -listonly $WSBASE  | awk -F '. ' '/x86_64/ {print $3}')
+
+# install MariaDB 10.1 RPMs
+cd /tmp
+# for r in $WSRPMFILES; do RPM=$(echo ${r##*/}); if [[ "$(echo $RPM | egrep -v 'galera|cassandra|test')" ]]; then echo "$RPM"; wget -cnv $r; rpm -ivh $r; fi; done
+
+wget -cnv http://sfo1.mirrors.digitalocean.com/mariadb/mariadb-10.1.2/yum/centos6-amd64/rpms/jemalloc-3.6.0-1.el6.x86_64.rpm
+wget -cnv http://sfo1.mirrors.digitalocean.com/mariadb/mariadb-10.1.2/yum/centos6-amd64/rpms/jemalloc-devel-3.6.0-1.el6.x86_64.rpm
+wget -cnv http://sfo1.mirrors.digitalocean.com/mariadb/mariadb-10.1.2/yum/centos6-amd64/rpms/MariaDB-10.1.2-centos6-x86_64-common.rpm
+wget -cnv http://sfo1.mirrors.digitalocean.com/mariadb/mariadb-10.1.2/yum/centos6-amd64/rpms/MariaDB-10.1.2-centos6-x86_64-compat.rpm
+wget -cnv http://sfo1.mirrors.digitalocean.com/mariadb/mariadb-10.1.2/yum/centos6-amd64/rpms/MariaDB-10.1.2-centos6-x86_64-client.rpm
+wget -cnv http://sfo1.mirrors.digitalocean.com/mariadb/mariadb-10.1.2/yum/centos6-amd64/rpms/MariaDB-10.1.2-centos6-x86_64-devel.rpm
+wget -cnv http://sfo1.mirrors.digitalocean.com/mariadb/mariadb-10.1.2/yum/centos6-amd64/rpms/MariaDB-10.1.2-centos6-x86_64-shared.rpm
+wget -cnv http://sfo1.mirrors.digitalocean.com/mariadb/mariadb-10.1.2/yum/centos6-amd64/rpms/MariaDB-10.1.2-centos6-x86_64-server.rpm
+wget -cnv http://sfo1.mirrors.digitalocean.com/mariadb/mariadb-10.1.2/yum/centos6-amd64/rpms/MariaDB-10.1.2-centos6-x86_64-oqgraph-engine.rpm
+wget -cnv http://sfo1.mirrors.digitalocean.com/mariadb/mariadb-10.1.2/yum/centos6-amd64/rpms/MariaDB-10.1.2-centos6-x86_64-connect-engine.rpm
+wget -cnv http://sfo1.mirrors.digitalocean.com/mariadb/mariadb-10.1.2/yum/centos6-amd64/rpms/MariaDB-10.1.2-centos6-x86_64-cassandra-engine.rpm
+
+rpm -ivh jemalloc-3.6.0-1.el6.x86_64.rpm
+rpm -ivh jemalloc-devel-3.6.0-1.el6.x86_64.rpm
+rpm -ivh MariaDB-10.1.2-centos6-x86_64-common.rpm --nodeps
+rpm -ivh MariaDB-10.1.2-centos6-x86_64-compat.rpm
+rpm -ivh MariaDB-10.1.2-centos6-x86_64-client.rpm
+rpm -ivh MariaDB-10.1.2-centos6-x86_64-server.rpm
+rpm -ivh MariaDB-10.1.2-centos6-x86_64-devel.rpm
+rpm -ivh MariaDB-10.1.2-centos6-x86_64-shared.rpm
+rpm -ivh MariaDB-10.1.2-centos6-x86_64-oqgraph-engine.rpm
+rpm -ivh MariaDB-10.1.2-centos6-x86_64-connect-engine.rpm
+rpm -ivh MariaDB-10.1.2-centos6-x86_64-cassandra-engine.rpm
+
+rpm -qa | egrep 'MariaDB|jemalloc'
+
+# clean up
+rm -rf /tmp/*.rpm
+
+/etc/init.d/mysql start
+
+/usr/bin/mysql -e "INSTALL SONAME 'metadata_lock_info';"
+/usr/bin/mysql -e "INSTALL SONAME 'query_cache_info';"
+/usr/bin/mysql -e "INSTALL SONAME 'query_response_time';"
+/usr/bin/mysql -t -e "SELECT * FROM mysql.plugin;"
+/usr/bin/mysql -t -e "SHOW PLUGINS;"
+/usr/bin/mysql -t -e "SHOW ENGINES;"
+
+# secure mysql server
+#THEMYSQLPASS=$(openssl rand 12 -base64)
+THEMYSQLPASS=mysqlpass
+mysql -e "DROP USER ''@'localhost';"
+mysql -e "DROP USER ''@'`hostname`';" 2>/dev/null
+mysql -e "DROP DATABASE test;"
+mysql -e "DELETE FROM mysql.user WHERE user = '';"
+mysql -e "GRANT ALL ON *.* TO 'root'@'%' IDENTIFIED BY 'mysqlpass' WITH GRANT OPTION;"
+mysql -e "GRANT REPLICATION SLAVE ON *.* TO 'repl'@'%' IDENTIFIED BY 'mysqlpass';"
+mysql -e "UPDATE mysql.user SET Password = PASSWORD('$THEMYSQLPASS') WHERE User = 'root'; FLUSH PRIVILEGES;"
+
+cat > "/root/.my.cnf" <<EOF
+[client]
+user=root
+password=$THEMYSQLPASS
+EOF
+
+touch /var/log/mysqld.log
+chmod 0666 /var/log/mysqld.log
+
+echo ""
+echo "-------------------------------------------------------"
+echo "MySQL root user password set"
+echo "MySQL root user added to /root/.my.cnf"
+echo "-------------------------------------------------------"
+#echo "MySQL root password: $THEMYSQLPASS"
+#echo "-------------------------------------------------------"
+/etc/init.d/mysql stop
