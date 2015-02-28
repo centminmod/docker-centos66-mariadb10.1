@@ -42,16 +42,16 @@ e.g. host system running CentminMod.com LEMP stack MariaDB 10 server hence the c
 
     mysqladmin -P 3307 -h 172.17.42.1 -u root -p ver
     Enter password: 
-    mysqladmin  Ver 9.1 Distrib 10.1.2-MariaDB, for Linux on x86_64
-    Copyright (c) 2000, 2014, Oracle, SkySQL Ab and others.
+    mysqladmin  Ver 9.1 Distrib 10.0.16-MariaDB, for Linux on x86_64
+    Copyright (c) 2000, 2014, Oracle, MariaDB Corporation Ab and others.
     
     Server version          10.1.2-MariaDB-wsrep
     Protocol version        10
-    Connection              Localhost via UNIX socket
-    UNIX socket             /var/lib/mysql/mysql.sock
-    Uptime:                 4 min 20 sec
+    Connection              172.17.42.1 via TCP/IP
+    TCP port                3307
+    Uptime:                 12 sec
     
-    Threads: 1  Questions: 8  Slow queries: 0  Opens: 0  Flush tables: 1  Open tables: 11  Queries per second avg: 0.030
+    Threads: 1  Questions: 1  Slow queries: 0  Opens: 0  Flush tables: 1  Open tables: 11  Queries per second avg: 0.083
 
 ---
 
