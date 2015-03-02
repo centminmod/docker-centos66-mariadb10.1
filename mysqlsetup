@@ -1,7 +1,9 @@
 #/bin/bash
 
+MDB_VER='10.1.3'
+
 # WSBASE=$(lynx -dump -listonly http://repo.psce.com/download/webscalesql/rpm/x86_64/centos-6/ | awk -F '. ' '/5.6./ {print $3}' | tail -1)
-# WSBASE='http://sfo1.mirrors.digitalocean.com/mariadb/mariadb-10.1.2/yum/centos6-amd64/rpms/' 
+# WSBASE='http://sfo1.mirrors.digitalocean.com/mariadb/mariadb-${MDB_VER}/yum/centos6-amd64/rpms/' 
 # WSLATESTURL=$(lynx -dump -listonly $WSBASE  | awk -F '. ' '/x86_64/ {print $3}')
 # WSRPMFILES=$(lynx -dump -listonly $WSBASE  | awk -F '. ' '/x86_64/ {print $3}')
 
@@ -9,29 +11,29 @@
 cd /tmp
 # for r in $WSRPMFILES; do RPM=$(echo ${r##*/}); if [[ "$(echo $RPM | egrep -v 'galera|cassandra|test')" ]]; then echo "$RPM"; wget -cnv $r; rpm -ivh $r; fi; done
 
-wget -cnv http://sfo1.mirrors.digitalocean.com/mariadb/mariadb-10.1.2/yum/centos6-amd64/rpms/jemalloc-3.6.0-1.el6.x86_64.rpm
-wget -cnv http://sfo1.mirrors.digitalocean.com/mariadb/mariadb-10.1.2/yum/centos6-amd64/rpms/jemalloc-devel-3.6.0-1.el6.x86_64.rpm
-wget -cnv http://sfo1.mirrors.digitalocean.com/mariadb/mariadb-10.1.2/yum/centos6-amd64/rpms/MariaDB-10.1.2-centos6-x86_64-common.rpm
-wget -cnv http://sfo1.mirrors.digitalocean.com/mariadb/mariadb-10.1.2/yum/centos6-amd64/rpms/MariaDB-10.1.2-centos6-x86_64-compat.rpm
-wget -cnv http://sfo1.mirrors.digitalocean.com/mariadb/mariadb-10.1.2/yum/centos6-amd64/rpms/MariaDB-10.1.2-centos6-x86_64-client.rpm
-wget -cnv http://sfo1.mirrors.digitalocean.com/mariadb/mariadb-10.1.2/yum/centos6-amd64/rpms/MariaDB-10.1.2-centos6-x86_64-devel.rpm
-wget -cnv http://sfo1.mirrors.digitalocean.com/mariadb/mariadb-10.1.2/yum/centos6-amd64/rpms/MariaDB-10.1.2-centos6-x86_64-shared.rpm
-wget -cnv http://sfo1.mirrors.digitalocean.com/mariadb/mariadb-10.1.2/yum/centos6-amd64/rpms/MariaDB-10.1.2-centos6-x86_64-server.rpm
-wget -cnv http://sfo1.mirrors.digitalocean.com/mariadb/mariadb-10.1.2/yum/centos6-amd64/rpms/MariaDB-10.1.2-centos6-x86_64-oqgraph-engine.rpm
-wget -cnv http://sfo1.mirrors.digitalocean.com/mariadb/mariadb-10.1.2/yum/centos6-amd64/rpms/MariaDB-10.1.2-centos6-x86_64-connect-engine.rpm
-wget -cnv http://sfo1.mirrors.digitalocean.com/mariadb/mariadb-10.1.2/yum/centos6-amd64/rpms/MariaDB-10.1.2-centos6-x86_64-cassandra-engine.rpm
+wget -cnv http://sfo1.mirrors.digitalocean.com/mariadb/mariadb-${MDB_VER}/yum/centos6-amd64/rpms/jemalloc-3.6.0-1.el6.x86_64.rpm
+wget -cnv http://sfo1.mirrors.digitalocean.com/mariadb/mariadb-${MDB_VER}/yum/centos6-amd64/rpms/jemalloc-devel-3.6.0-1.el6.x86_64.rpm
+wget -cnv http://sfo1.mirrors.digitalocean.com/mariadb/mariadb-${MDB_VER}/yum/centos6-amd64/rpms/MariaDB-${MDB_VER}-centos6-x86_64-common.rpm
+wget -cnv http://sfo1.mirrors.digitalocean.com/mariadb/mariadb-${MDB_VER}/yum/centos6-amd64/rpms/MariaDB-${MDB_VER}-centos6-x86_64-compat.rpm
+wget -cnv http://sfo1.mirrors.digitalocean.com/mariadb/mariadb-${MDB_VER}/yum/centos6-amd64/rpms/MariaDB-${MDB_VER}-centos6-x86_64-client.rpm
+wget -cnv http://sfo1.mirrors.digitalocean.com/mariadb/mariadb-${MDB_VER}/yum/centos6-amd64/rpms/MariaDB-${MDB_VER}-centos6-x86_64-devel.rpm
+wget -cnv http://sfo1.mirrors.digitalocean.com/mariadb/mariadb-${MDB_VER}/yum/centos6-amd64/rpms/MariaDB-${MDB_VER}-centos6-x86_64-shared.rpm
+wget -cnv http://sfo1.mirrors.digitalocean.com/mariadb/mariadb-${MDB_VER}/yum/centos6-amd64/rpms/MariaDB-${MDB_VER}-centos6-x86_64-server.rpm
+wget -cnv http://sfo1.mirrors.digitalocean.com/mariadb/mariadb-${MDB_VER}/yum/centos6-amd64/rpms/MariaDB-${MDB_VER}-centos6-x86_64-oqgraph-engine.rpm
+wget -cnv http://sfo1.mirrors.digitalocean.com/mariadb/mariadb-${MDB_VER}/yum/centos6-amd64/rpms/MariaDB-${MDB_VER}-centos6-x86_64-connect-engine.rpm
+wget -cnv http://sfo1.mirrors.digitalocean.com/mariadb/mariadb-${MDB_VER}/yum/centos6-amd64/rpms/MariaDB-${MDB_VER}-centos6-x86_64-cassandra-engine.rpm
 
 rpm -ivh jemalloc-3.6.0-1.el6.x86_64.rpm
 rpm -ivh jemalloc-devel-3.6.0-1.el6.x86_64.rpm
-rpm -ivh MariaDB-10.1.2-centos6-x86_64-common.rpm --nodeps
-rpm -ivh MariaDB-10.1.2-centos6-x86_64-compat.rpm
-rpm -ivh MariaDB-10.1.2-centos6-x86_64-client.rpm
-rpm -ivh MariaDB-10.1.2-centos6-x86_64-server.rpm
-rpm -ivh MariaDB-10.1.2-centos6-x86_64-devel.rpm
-rpm -ivh MariaDB-10.1.2-centos6-x86_64-shared.rpm
-rpm -ivh MariaDB-10.1.2-centos6-x86_64-oqgraph-engine.rpm
-rpm -ivh MariaDB-10.1.2-centos6-x86_64-connect-engine.rpm
-rpm -ivh MariaDB-10.1.2-centos6-x86_64-cassandra-engine.rpm
+rpm -ivh MariaDB-${MDB_VER}-centos6-x86_64-common.rpm --nodeps
+rpm -ivh MariaDB-${MDB_VER}-centos6-x86_64-compat.rpm
+rpm -ivh MariaDB-${MDB_VER}-centos6-x86_64-client.rpm
+rpm -ivh MariaDB-${MDB_VER}-centos6-x86_64-server.rpm
+rpm -ivh MariaDB-${MDB_VER}-centos6-x86_64-devel.rpm
+rpm -ivh MariaDB-${MDB_VER}-centos6-x86_64-shared.rpm
+rpm -ivh MariaDB-${MDB_VER}-centos6-x86_64-oqgraph-engine.rpm
+rpm -ivh MariaDB-${MDB_VER}-centos6-x86_64-connect-engine.rpm
+rpm -ivh MariaDB-${MDB_VER}-centos6-x86_64-cassandra-engine.rpm
 
 rpm -qa | egrep 'MariaDB|jemalloc'
 
