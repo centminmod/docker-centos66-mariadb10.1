@@ -38,14 +38,14 @@ to connect from host system to MariaDB docker container use the -h IP address wh
     ifconfig docker0 | grep 'inet '
     inet addr:172.17.42.1  Bcast:0.0.0.0  Mask:255.255.0.0
 
-e.g. host system running CentminMod.com LEMP stack MariaDB 10 server hence the client is 10.0.16 to connect to MariaDB 10.1.2 docker container
+e.g. host system running CentminMod.com LEMP stack MariaDB 10 server hence the client is 10.0.17 to connect to MariaDB 10.1.4 docker container
 
     mysqladmin -P 3307 -h 172.17.42.1 -u root -p ver
     Enter password: 
-    mysqladmin  Ver 9.1 Distrib 10.0.16-MariaDB, for Linux on x86_64
+    mysqladmin  Ver 9.1 Distrib 10.0.17-MariaDB, for Linux on x86_64
     Copyright (c) 2000, 2014, Oracle, MariaDB Corporation Ab and others.
     
-    Server version          10.1.2-MariaDB-wsrep
+    Server version          10.1.4-MariaDB-wsrep
     Protocol version        10
     Connection              172.17.42.1 via TCP/IP
     TCP port                3307
