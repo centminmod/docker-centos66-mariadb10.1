@@ -1,6 +1,6 @@
 #/bin/bash
 
-MDB_VER='10.1.11'
+MDB_VER='10.1.13'
 
 # WSBASE=$(lynx -dump -listonly http://repo.psce.com/download/webscalesql/rpm/x86_64/centos-6/ | awk -F '. ' '/5.6./ {print $3}' | tail -1)
 # WSBASE='http://sfo1.mirrors.digitalocean.com/mariadb/mariadb-${MDB_VER}/yum/centos6-amd64/rpms/' 
