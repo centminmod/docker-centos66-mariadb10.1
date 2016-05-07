@@ -22,11 +22,11 @@ wget -cnv http://sfo1.mirrors.digitalocean.com/mariadb/mariadb-${MDB_VER}/yum/ce
 #wget -cnv http://sfo1.mirrors.digitalocean.com/mariadb/mariadb-${MDB_VER}/yum/centos6-amd64/rpms/MariaDB-${MDB_VER}-centos6-x86_64-oqgraph-engine.rpm
 wget -cnv http://sfo1.mirrors.digitalocean.com/mariadb/mariadb-${MDB_VER}/yum/centos6-amd64/rpms/MariaDB-${MDB_VER}-centos6-x86_64-connect-engine.rpm
 wget -cnv http://sfo1.mirrors.digitalocean.com/mariadb/mariadb-${MDB_VER}/yum/centos6-amd64/rpms/MariaDB-${MDB_VER}-centos6-x86_64-cassandra-engine.rpm
-wget -cnv http://sfo1.mirrors.digitalocean.com/mariadb/mariadb-${MDB_VER}/yum/centos6-amd64/rpms/galera-25.3.12-1.rhel6.el6.x86_64.rpm
+wget -cnv http://sfo1.mirrors.digitalocean.com/mariadb/mariadb-${MDB_VER}/yum/centos6-amd64/rpms/galera-25.3.15-1.rhel6.el6.x86_64.rpm
 
 rpm -ivh jemalloc-3.6.0-1.el6.x86_64.rpm
 rpm -ivh jemalloc-devel-3.6.0-1.el6.x86_64.rpm
-rpm -ivh galera-25.3.12-1.rhel6.el6.x86_64.rpm
+rpm -ivh galera-25.3.15-1.rhel6.el6.x86_64.rpm
 rpm -ivh MariaDB-${MDB_VER}-centos6-x86_64-common.rpm --nodeps
 rpm -ivh MariaDB-${MDB_VER}-centos6-x86_64-compat.rpm
 rpm -ivh MariaDB-${MDB_VER}-centos6-x86_64-client.rpm
